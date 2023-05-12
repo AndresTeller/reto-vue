@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { IMedicine } from '../interfaces/medicine.interface'
 
-const medicineSchema = new Schema<IMedicine>({
+export const medicineSchema = new Schema<IMedicine>({
   name: {
     type: String,
     required: [true, 'Must provide a name']
