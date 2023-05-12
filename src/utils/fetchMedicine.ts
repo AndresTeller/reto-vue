@@ -12,3 +12,11 @@ export const createMedicine = async (url: string, medicine:IMedicine) => {
   const data = await response.json();
   return data;
 }
+
+export const deleteMedicine = async (id: string) => {
+  const options = {
+    method: 'DELETE'
+  }
+  const response = await fetch(`http://localhost:3000/api/v1/medicines/${id}`, options);
+  return response;
+}
