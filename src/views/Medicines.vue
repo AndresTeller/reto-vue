@@ -1,8 +1,65 @@
+<script lang="ts" setup>
+import { ref } from 'vue';
+import type { IMedicine } from "../../server/medicine/interfaces/medicine.interface"
+
+const getMedicines = async () => {
+  const response = await fetch("http://localhost:3000/api/v1/medicines");
+  const {data} = await response.json();
+  return data;
+}
+
+getMedicines();
+
+export interface BaseColumn {
+  label: string
+  field: string
+  sortable?: boolean
+  thClass?: string
+  tdClass?: string
+  hidden?: boolean
+  globalSearchDisabled?: boolean
+}
+
+const rows = ref<IMedicine[]>([])
+
+const insertRows = async () => {
+  const medicines = await getMedicines();
+  rows.value = medicines;
+  console.log(rows.value);
+}
+
+insertRows();
+
+const columns = ref<BaseColumn[]>([
+    {
+      field: 'name',
+      label: 'Nombre'
+    },
+    {
+      field: 'qty',
+      label: 'Cantidad'
+    },
+    {
+      field: 'provider',
+      label: 'Provedor'
+    },
+    {
+      field: 'doctorSignature',
+      label: 'Firma'
+    },
+    {
+      field: 'description',
+      label: 'Descripcion'
+    }
+  ])
+
+</script>
+
 <template>
   <div class="columns is-multiline">
     <!-- Welcome message (This will be a component) -->
     <div class="column is-12 mt-5 mb-5">
-      <div class="notification title is-size-5 is-primary">Bienvenid@ David P. Avila</div>
+      <div class="notification title is-size-5 is-primary">Bienvenido/a Andrés Teller</div>
     </div>
 
     <!-- Buttons -->
@@ -15,8 +72,8 @@
     <!-- Table (This will be a component) -->
     <div class="column is-12">
       <vue-good-table
-        :columns="[]"
-        :rows="[]"
+        :columns="columns"
+        :rows="rows"
         :sort-options="{
           enabled: true
         }"
