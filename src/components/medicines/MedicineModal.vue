@@ -3,7 +3,7 @@ import type { IMedicine } from '../../../server/medicine/interfaces/medicine.int
 import { computed, defineComponent, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { minValue, required } from '@vuelidate/validators'
-import { createMedicine } from '../../fetchMedicine'
+import { createMedicine } from '../../utils/fetchMedicine'
 
 export default defineComponent({
   name: 'MedicineModal',

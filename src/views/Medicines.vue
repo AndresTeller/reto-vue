@@ -2,27 +2,13 @@
 import { ref } from 'vue'
 import type { IMedicine } from '../../server/medicine/interfaces/medicine.interface'
 import MedicineModal from '../components/medicines/MedicineModal.vue'
-import { getAllMedicines } from '@/fetchMedicine';
+import type { BaseColumn } from '@/Interfaces/BaseColumn.interface';
+import { insertRows } from '@/utils/insertRows';
 
-export interface BaseColumn {
-  label: string
-  field: string
-  sortable?: boolean
-  thClass?: string
-  tdClass?: string
-  hidden?: boolean
-  globalSearchDisabled?: boolean
-}
 
 const rows = ref<IMedicine[]>([])
 
-const insertRows = async () => {
-  const medicines = await getAllMedicines('http://localhost:3000/api/v1/medicines');
-  rows.value = medicines
-  console.log(rows.value)
-}
-
-insertRows()
+insertRows('http://localhost:3000/api/v1/medicines',rows);
 
 const columns = ref<BaseColumn[]>([
   {

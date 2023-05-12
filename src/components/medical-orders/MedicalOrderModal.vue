@@ -2,9 +2,9 @@
 import { ref, computed, defineComponent, type PropType } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { maxLength, required, numeric } from '@vuelidate/validators'
-// import type { IMedicalOrder } from '../../../server/medical-orders/interfaces/medicalOrders.interface'
+import type { IMedicalOrder } from '../../../server/medical-orders/interfaces/medicalOrders.interface'
 import type { IMedicine } from '../../../server/medicine/interfaces/medicine.interface'
-import { getAllMedicines } from '@/fetchMedicine'
+import { getAllElements } from '@/utils/getAllElements'
 
 export default defineComponent({
   name: 'MedicalOrderModal',
@@ -31,7 +31,7 @@ export default defineComponent({
     const medicineOptions = ref<IMedicine[]>([]);
 
     const loadMedicines = async () => {
-       medicineOptions.value = await getAllMedicines("http://localhost:3000/api/v1/medicines");
+       medicineOptions.value = await getAllElements("http://localhost:3000/api/v1/medicines");
     }
     loadMedicines();
     

@@ -1,6 +1,49 @@
 <script setup lang="ts">
 import MedicalOrderModal from '@/components/medical-orders/MedicalOrderModal.vue'
+import type { IMedicalOrder } from '../../server/medical-orders/interfaces/medicalOrders.interface'
+// import type { IMedicine } from '../../server/medicine/interfaces/medicine.interface'
+import type { BaseColumn } from '@/Interfaces/BaseColumn.interface'
 import { ref } from 'vue'
+import { insertRows } from '@/utils/insertRows'
+
+const rows = ref<IMedicalOrder[]>([]);
+
+insertRows('http://localhost:3000/api/v1/orders', rows);
+
+const range = ref({
+  start: null,
+  end: null
+})
+const columns = ref<BaseColumn[]>([
+    {
+      field: 'name',
+      label: 'Nombre'
+    },
+    {
+      field: 'lastName',
+      label: 'Apellido'
+    },
+    {
+      field: 'idNumber',
+      label: 'Identificación'
+    },
+    {
+      field: 'eps',
+      label: 'EPS'
+    },
+    {
+      field: 'comments',
+      label: 'comentarios'
+    },
+    {
+      field: 'doctorSignature',
+      label: 'Firma'
+    },
+    {
+      field: 'medicines',
+      label: 'Medicamentos'
+    }
+  ])
 
 const isOpenModal = ref(false)
 </script>
@@ -47,8 +90,8 @@ const isOpenModal = ref(false)
     <!-- TODO: add a button to download the pdf -->
     <div class="column is-12">
       <vue-good-table
-        :columns="[]"
-        :rows="[]"
+        :columns="columns"
+        :rows="rows"
         :sort-options="{
           enabled: true
         }"
@@ -75,6 +118,6 @@ const isOpenModal = ref(false)
     </div>
 
     <!-- Modal (This will be a component) -->
-    <MedicalOrderModal :is-open="isOpenModal" @hide="isOpenModal=false"/>
+    <MedicalOrderModal :is-open="isOpenModal" @hide="isOpenModal = false" />
   </div>
 </template>
