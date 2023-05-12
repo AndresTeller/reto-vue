@@ -2,9 +2,9 @@
 import { ref, computed, defineComponent, type PropType } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { maxLength, required, numeric } from '@vuelidate/validators'
-import type { IMedicalOrder } from '../../../server/medical-orders/interfaces/medicalOrders.interface'
 import type { IMedicine } from '../../../server/medicine/interfaces/medicine.interface'
 import { getAllElements } from '@/utils/getAllElements'
+import { createMedicalOrder } from '@/utils/fetchMedicalOrder'
 
 export default defineComponent({
   name: 'MedicalOrderModal',
@@ -24,6 +24,7 @@ export default defineComponent({
       comments: '',
       doctorSignature: ''
     })
+    const medicines = ref([]);
 
     const isModalOpen = computed(() => props.isOpen)
 
@@ -55,16 +56,30 @@ export default defineComponent({
 
       isLoading.value = true
 
+      //Crear Medical Order
+      const newMedicalORder: any = {
+        name: order.value.name,
+        lastName: order.value.lastName,
+        idNumber: order.value.idNumber,
+        eps: order.value.eps,
+        medicines: order.value.medicines,
+        comments: order.value.comments,
+        doctorSignature: order.value.doctorSignature
+      }
+
+      createMedicalOrder("http://localhost:3000/api/v1/orders", newMedicalORder);
+
       // TODO: save order
       // emit('save', JSON.stringify(order.value))
       console.log('Guardando...')
-      console.log(order.value.name)
+      // console.log(order.value.medicines)
+      console.log(medicineOptions.value[0].name);
 
       isLoading.value = false
     }
 
     const handleAddMedicine = () => {
-      console.log('Agregando medicamento...')
+      medicines.value.push();
 
     }
 

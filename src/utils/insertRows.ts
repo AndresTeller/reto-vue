@@ -13,9 +13,7 @@ const getNameMedicines = (rows: any) => {
     console.log(rowMedicine)
     for (let j = 0; j < rowMedicine.length; j++) {
       const medicine = rowMedicine[j];
-      console.log(medicine.name);
-      rows.value[i]
+      rows.value[i].medicines[j] = medicine.name;
     }
-    
   }
 }
