@@ -2,14 +2,7 @@
 import { ref } from 'vue'
 import type { IMedicine } from '../../server/medicine/interfaces/medicine.interface'
 import MedicineModal from '../components/medicines/MedicineModal.vue'
-
-const getMedicines = async () => {
-  const response = await fetch('http://localhost:3000/api/v1/medicines')
-  const { data } = await response.json()
-  return data
-}
-
-getMedicines()
+import { getAllMedicines } from '@/fetchMedicine';
 
 export interface BaseColumn {
   label: string
@@ -24,7 +17,7 @@ export interface BaseColumn {
 const rows = ref<IMedicine[]>([])
 
 const insertRows = async () => {
-  const medicines = await getMedicines()
+  const medicines = await getAllMedicines('http://localhost:3000/api/v1/medicines');
   rows.value = medicines
   console.log(rows.value)
 }

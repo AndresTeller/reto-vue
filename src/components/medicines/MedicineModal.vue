@@ -3,6 +3,7 @@ import type { IMedicine } from '../../../server/medicine/interfaces/medicine.int
 import { computed, defineComponent, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { minValue, required } from '@vuelidate/validators'
+import { createMedicine } from '../../fetchMedicine'
 
 export default defineComponent({
   name: 'MedicineModal',
@@ -41,8 +42,16 @@ export default defineComponent({
       isLoading.value = true
 
       // TODO: save medicine
-      console.log('Guardando...')
-      emit('save', JSON.stringify(medicine.value))
+
+      const newMedicine: IMedicine = {
+        name: medicine.value.name,
+        description: medicine.value.description,
+        qty: medicine.value.qty,
+        provider: medicine.value.provider,
+        doctorSignature: medicine.value.doctorSignature
+      }
+
+      createMedicine("http://localhost:3000/api/v1/medicines", newMedicine);
 
       isLoading.value = false
     }
